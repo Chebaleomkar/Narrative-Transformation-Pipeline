@@ -1,0 +1,43 @@
+You are analyzing a source narrative to extract its deep structural DNA.
+This analysis will be used to reimagine the story in a completely different world.
+
+== SOURCE STORY ==
+{{source_text}}
+
+== TARGET WORLD (for context — do NOT transform yet, only analyze) ==
+{{target_world}}
+
+== YOUR TASK ==
+Extract the NARRATIVE DNA of this story. Break it down into:
+
+### 1. CORE THEMES
+What universal human concerns does this story explore?
+List 3-6 themes with a one-line description of how each manifests in the story.
+
+### 2. CHARACTER MAP
+For each significant character, identify:
+- **Name**: Original name
+- **Narrative Role**: Their function in the story (e.g., protagonist, antagonist, mentor, tragic mirror)
+- **Core Trait**: The defining characteristic that drives their actions
+- **Arc**: How they change from beginning to end (or why they don't)
+- **Key Relationships**: Their most important connections to other characters
+
+### 3. PLOT SKELETON
+Break the story into 6-10 KEY PLOT BEATS — the essential turning points.
+For each beat:
+- **What happens** (one sentence)
+- **Why it matters** (its narrative function — what changes because of this?)
+
+### 4. MOTIFS & SYMBOLS
+Identify 3-5 recurring symbols, images, or patterns and what they represent.
+
+### 5. EMOTIONAL TRAJECTORY
+Describe the emotional journey: what should the reader feel at the beginning,
+middle, and end?
+
+### 6. THE SOUL OF THE STORY (most important)
+In 2-3 sentences, what is the IRREDUCIBLE ESSENCE of this story?
+What must survive any transformation for it to still be THIS story?
+
+Be thorough but precise. This analysis is the foundation for everything that follows.
+Write the analysis directly — no meta-commentary.
