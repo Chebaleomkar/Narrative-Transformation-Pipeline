@@ -1,0 +1,16 @@
+Write a complete reimagined story based on this scene outline.
+
+== SCENE OUTLINE ==
+{{outline}}
+
+== REQUIREMENTS ==
+- Length: 1500-2500 words
+- POV: Third person, past tense
+- Structure: Use "---" between acts
+- Include dialogue in major scenes
+- Use the target world's vocabulary naturally
+- The story must work standalone — no references to the original
+- Sharp, modern prose — concrete detail over abstraction
+
+DO NOT include author notes, meta-commentary, or "in this reimagining" framing.
+START with a story title, then write.
