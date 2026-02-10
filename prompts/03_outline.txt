@@ -1,0 +1,24 @@
+Given the following transformation plan (which contains world rules, character mappings,
+plot remappings, and motif translations), create a SCENE-BY-SCENE OUTLINE.
+
+== TRANSFORMATION PLAN ==
+{{transformation}}
+
+== YOUR TASK ==
+Create a 5-ACT OUTLINE with 2-3 scenes per act (10-12 scenes total).
+
+For each scene:
+1. **Title** (evocative)
+2. **POV Character** (use the NEW names)
+3. **Setting** (specific time/place, sensory details)
+4. **What Happens** (concrete actions and dialogue)
+5. **Emotional Beat** (what the reader feels)
+6. **Bridge** (connection to next scene)
+
+Requirements:
+- Build tension across acts
+- Include dialogue moments
+- Integrate motifs naturally
+- Ending must feel earned
+
+Write ONLY the outline. No commentary.
