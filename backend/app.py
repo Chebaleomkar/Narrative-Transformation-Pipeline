@@ -160,7 +160,7 @@ async def get_examples():
             name = f.stem.replace("_", " ").title()
 
             # Categorize: files with "world" or specific world names go to worlds
-            if any(w in f.stem.lower() for w in ["world", "silicon", "cyberpunk", "medieval", "space"]):
+            if any(w in f.stem.lower() for w in ["world", "silicon", "cyberpunk", "medieval", "space", "mars", "colony", "future", "dystopia"]):
                 examples["worlds"][name] = content
             else:
                 examples["stories"][name] = content

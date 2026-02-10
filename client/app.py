@@ -101,7 +101,7 @@ with st.sidebar:
 
     api_url = st.text_input(
         "Backend URL",
-        value="http://localhost:8000",
+        value="http://localhost:8001",
         help="URL of the FastAPI backend server"
     )
 
@@ -170,6 +170,10 @@ st.markdown("### 📝 Input")
 col1, col2 = st.columns(2)
 
 with col1:
+    uploaded_source = st.file_uploader("📂 Load Source Story", type=["txt", "md"], key="source_upload")
+    if uploaded_source:
+        st.session_state["source_text"] = uploaded_source.read().decode("utf-8")
+
     source_text = st.text_area(
         "📖 Source Story",
         value=st.session_state.get("source_text", ""),
@@ -183,6 +187,10 @@ with col1:
     )
 
 with col2:
+    uploaded_target = st.file_uploader("📂 Load Target World", type=["txt", "md"], key="target_upload")
+    if uploaded_target:
+        st.session_state["target_world"] = uploaded_target.read().decode("utf-8")
+
     target_world = st.text_area(
         "🌍 Target World",
         value=st.session_state.get("target_world", ""),
