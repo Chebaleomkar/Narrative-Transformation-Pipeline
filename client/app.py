@@ -99,9 +99,14 @@ with st.sidebar:
     st.image("https://em-content.zobj.net/source/apple/391/crystal-ball_1f52e.png", width=60)
     st.title("Settings")
 
+    # Try to get from secrets, otherwise default to local
+    default_url = "http://localhost:8001"
+    if "BACKEND_URL" in st.secrets:
+        default_url = st.secrets["BACKEND_URL"]
+
     api_url = st.text_input(
         "Backend URL",
-        value="http://localhost:8001",
+        value=default_url,
         help="URL of the FastAPI backend server"
     )
 
