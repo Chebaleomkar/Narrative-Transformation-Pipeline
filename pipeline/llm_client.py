@@ -4,19 +4,24 @@ LLM Client — Groq API Wrapper
 Uses the Groq Python SDK for ultra-fast inference with
 open-source models like Llama 4 Maverick.
 
-Groq provides free-tier access with generous rate limits
-and blazing-fast inference on their LPU hardware.
+Includes automatic retry with backoff for rate limits
+(Groq free tier has per-minute token caps).
 """
 
 import os
+import time
 from groq import Groq
 from dotenv import load_dotenv
 
 load_dotenv()
 
+# Max retries for rate limit errors
+MAX_RETRIES = 3
+RETRY_WAIT_SECONDS = 30
+
 
 class LLMClient:
-    """Thin wrapper over Groq API for text generation."""
+    """Thin wrapper over Groq API for text generation with retry logic."""
 
     def __init__(self, model_id: str = None, temperature: float = None, max_tokens: int = None):
         api_key = os.getenv("GROQ_API_KEY")
@@ -37,6 +42,7 @@ class LLMClient:
     def generate(self, prompt: str, system_message: str = None, temperature: float = None) -> str:
         """
         Generate text using Groq's chat completions API.
+        Automatically retries on rate limit errors.
 
         Args:
             prompt: The user prompt / instruction
@@ -53,17 +59,28 @@ class LLMClient:
             messages.append({"role": "system", "content": system_message})
         messages.append({"role": "user", "content": prompt})
 
-        # Use non-streaming for simplicity in pipeline
-        completion = self.client.chat.completions.create(
-            model=self.model_id,
-            messages=messages,
-            max_completion_tokens=self.max_tokens,
-            temperature=temp,
-            top_p=1,
-            stream=False,
-        )
+        for attempt in range(MAX_RETRIES + 1):
+            try:
+                completion = self.client.chat.completions.create(
+                    model=self.model_id,
+                    messages=messages,
+                    max_completion_tokens=self.max_tokens,
+                    temperature=temp,
+                    top_p=1,
+                    stream=False,
+                )
+                return completion.choices[0].message.content.strip()
 
-        return completion.choices[0].message.content.strip()
+            except Exception as e:
+                error_str = str(e).lower()
+                if "rate_limit" in error_str or "429" in error_str or "rate limit" in error_str:
+                    if attempt < MAX_RETRIES:
+                        wait = RETRY_WAIT_SECONDS * (attempt + 1)
+                        print(f"  ⏳ Rate limited. Waiting {wait}s before retry {attempt + 2}/{MAX_RETRIES + 1}...")
+                        time.sleep(wait)
+                        continue
+                # Re-raise if not a rate limit error or max retries exhausted
+                raise
 
     def generate_long(self, prompt: str, system_message: str = None, max_tokens: int = 4096) -> str:
         """
