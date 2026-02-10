@@ -4,27 +4,28 @@
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│                    INPUT LAYER                                  │
+│                    USER INPUT                                    │
 │                                                                 │
 │  ┌──────────────────────┐    ┌──────────────────────────────┐  │
-│  │  source_material.yaml │    │  transformation_config.yaml  │  │
-│  │  ─────────────────── │    │  ──────────────────────────  │  │
-│  │  • Title & metadata   │    │  • Target world definition   │  │
-│  │  • Themes (abstract)  │    │  • Character mappings        │  │
-│  │  • Characters (funcs) │    │  • Motif remappings          │  │
-│  │  • Plot beats (funcs) │    │  • Plot beat mappings        │  │
-│  │  • Motifs & symbols   │    │  • World internal rules      │  │
+│  │  Source Story (text)  │    │  Target World (text)         │  │
+│  │  ──────────────────── │    │  ──────────────────────────  │  │
+│  │  Any story — summary, │    │  Any world — genre, era,    │  │
+│  │  plot, full text,     │    │  culture, technology level.  │  │
+│  │  history, fiction,    │    │  "Cyberpunk Tokyo 2077"      │  │
+│  │  user-written.        │    │  "Medieval India"            │  │
 │  └──────────┬───────────┘    └──────────────┬───────────────┘  │
-│             │                               │                   │
 └─────────────┼───────────────────────────────┼───────────────────┘
               │                               │
               ▼                               ▼
 ┌─────────────────────────────────────────────────────────────────┐
-│                 PROMPT ENGINE (Jinja2)                           │
+│              NARRATIVE ONTOLOGY (reference guide)                │
 │                                                                 │
-│  Templates inject structured data into natural language prompts │
-│  Each template is a separate, auditable file                    │
-│  prompts/01_world_building.txt → 04_story_generation.txt       │
+│  Gives the LLM structured vocabulary for analysis:              │
+│  • Themes (sovereignty, betrayal, loyalty, corruption...)       │
+│  • Character Roles (protagonist, antagonist, mentor, pawn...)   │
+│  • Plot Functions (inciting_revelation, test_of_truth...)       │
+│  • Motif Categories (corruption, performance, surveillance...)  │
+│  Used as guide, NOT constraint — LLM can go beyond it           │
 └───────────────────────────┬─────────────────────────────────────┘
                             │
                             ▼
@@ -32,161 +33,178 @@
 │              4-STAGE CHAINED PIPELINE                            │
 │                                                                 │
 │  ┌───────────────────┐                                          │
-│  │ Stage 1:          │                                          │
-│  │ WORLD BUILDING    │──→ world_bible (setting, rules, culture) │
+│  │ Stage 1: ANALYZE  │──→ Narrative DNA (themes, characters,    │
+│  │ Extract structure  │    plot beats, motifs, soul)             │
 │  └────────┬──────────┘                                          │
 │           │ output feeds ↓                                      │
 │  ┌────────▼──────────┐                                          │
-│  │ Stage 2:          │                                          │
-│  │ CHARACTER PROFILES│──→ detailed profiles in new world        │
+│  │ Stage 2: TRANSFORM│──→ Transformation plan (world bible,     │
+│  │ Map to new world   │    character remaps, scene remaps)       │
 │  └────────┬──────────┘                                          │
 │           │ outputs feed ↓                                      │
 │  ┌────────▼──────────┐                                          │
-│  │ Stage 3:          │                                          │
-│  │ SCENE OUTLINE     │──→ 5-act scene-by-scene structure        │
+│  │ Stage 3: OUTLINE  │──→ Scene-by-scene structure (5 acts,     │
+│  │ Structure scenes   │    12-15 scenes with details)            │
 │  └────────┬──────────┘                                          │
 │           │ all outputs feed ↓                                  │
 │  ┌────────▼──────────┐                                          │
-│  │ Stage 4:          │                                          │
-│  │ STORY GENERATION  │──→ final 2-3 page reimagined narrative   │
+│  │ Stage 4: GENERATE │──→ Final reimagined story (2-3 pages)    │
+│  │ Write the story    │                                          │
 │  └───────────────────┘                                          │
 │                                                                 │
-│  LLM: Groq API (Open-Source Models on LPU Hardware)            │
-│  e.g., Llama 4 Maverick 17B, Mixtral, Gemma                   │
+│  LLM: Groq API (Llama 4 Maverick — open-source, ultra-fast)    │
 └───────────────────────────┬─────────────────────────────────────┘
                             │
                             ▼
 ┌─────────────────────────────────────────────────────────────────┐
-│                    OUTPUT ASSEMBLY                               │
+│                    OUTPUT                                        │
 │                                                                 │
 │  output/                                                        │
-│  ├── 01_world_bible.md          (intermediate)                  │
-│  ├── 02_character_profiles.md   (intermediate)                  │
-│  ├── 03_scene_outline.md        (intermediate)                  │
-│  ├── 04_final_story.md          (deliverable)                   │
-│  ├── final_output.md            (combined document)             │
-│  └── run_metadata.json          (reproducibility)               │
+│  ├── 01_analyze.md          (narrative DNA)                     │
+│  ├── 02_transform.md        (transformation plan)               │
+│  ├── 03_outline.md          (scene structure)                   │
+│  ├── 04_final_story.md      (reimagined narrative)              │
+│  ├── final_output.md        (combined document)                 │
+│  └── run_metadata.json      (reproducibility data)              │
 └─────────────────────────────────────────────────────────────────┘
 ```
 
-## 2. Solution Design (End-to-End Explanation)
+## 2. Solution Design
 
-### Core Insight
-Narrative transformation is not a single-prompt problem. Directly asking an LLM to 
-"rewrite Hamlet as a tech startup story" produces surface-level results — costume 
-changes over Shakespeare, not genuine reimagining. The system needs **decomposition**.
+### The Core Insight
 
-### The Framework
-We decompose the problem into three orthogonal concerns:
+Narrative transformation is NOT a single-prompt problem. Asking an LLM to 
+"rewrite this story in a new world" produces surface-level costume changes.
+The magic happens when you **decompose the task** and **chain the stages**.
 
-1. **Source Analysis** (What makes this story THIS story?)
-   - We extract abstract narrative components: character *functions* (not identities), 
-     thematic *pillars* (not plot events), and symbolic *motifs* (not specific objects).
-   - This lives in `source_material.yaml` — human-curated, structured knowledge.
+### Why This Architecture Works
 
-2. **Transformation Rules** (How does each component map to the new world?)
-   - Every character, motif, and plot beat has an explicit mapping with a *rationale*.
-   - The target world has defined internal rules that constrain the transformation.
-   - This lives in `transformation_config.yaml` — the creative design document.
+**Stage separation creates quality.** Each stage focuses on ONE task:
+- Stage 1 (Analyze) extracts the story's DNA without worrying about the target world
+- Stage 2 (Transform) maps elements without worrying about prose quality
+- Stage 3 (Outline) structures scenes without worrying about final language
+- Stage 4 (Generate) writes with full context from all previous stages
 
-3. **Generation Pipeline** (How do we produce coherent output?)
-   - A 4-stage chain where each stage builds on previous outputs.
-   - Stage 1 establishes the world → Stage 2 populates it with characters → 
-     Stage 3 structures the plot → Stage 4 writes the story.
-   - Each stage's prompt includes all relevant prior outputs, ensuring consistency.
+**Chaining creates consistency.** Stage 4 receives the SAME character names that 
+Stage 2 defined, the SAME world rules that Stage 2 established, and the SAME scene 
+structure that Stage 3 created. No hallucinated inconsistencies.
 
-### Why This Works
-- **Consistency**: Characters introduced in Stage 2 exist in the world built in Stage 1.
-- **Coherence**: The scene outline references the actual character profiles, not generic ones.
-- **Reproducibility**: Same YAML inputs + same model = comparable outputs.
-- **Transparency**: Every intermediate artifact is saved and inspectable.
+**The ontology creates shared vocabulary.** Without it, the LLM might use different 
+terms in different stages ("the hero" vs "the main character" vs "the protagonist"). 
+The ontology anchors the analysis in stable categories while remaining flexible.
+
+### The Universal Design
+
+The system is story-agnostic by design:
+- **No per-story YAML schemas** — users provide plain text
+- **No per-story code** — the same pipeline handles everything
+- **No hardcoded character names** — the LLM discovers them from the source text
+- **The engine interface is API-ready**: `engine.transform(source_text, target_world)`
+
+This means:
+- Hamlet → Silicon Valley works out of the box
+- Shivaji Maharaj → Space Opera works with the same code
+- A user's original story → Medieval Japan works with zero changes
 
 ## 3. Alternatives Considered
 
 ### Alternative A: Fully Prompt-Based (Single Shot)
 ```
-"Rewrite Hamlet as a Silicon Valley AI startup story in 2500 words."
+"Rewrite Hamlet as a Silicon Valley story in 2500 words."
 ```
-**Why rejected**: Produces shallow results. The LLM has to simultaneously handle world-building,
-character development, plot structure, and prose style. Quality suffers in all dimensions.
-No intermediate artifacts to inspect or iterate on.
+**Why rejected**: Produces costume changes, not genuine transformation. The LLM 
+has to simultaneously handle analysis, mapping, structuring, AND writing. Quality 
+suffers in ALL dimensions.
 
-### Alternative B: Few-Shot Prompting
-Provide 2-3 examples of narrative transformations (e.g., Romeo & Juliet → rival labs),
-then ask the model to do the same for Hamlet.
+### Alternative B: Rigid Schema per Story (Over-engineering)
+Hand-curate YAML files for every source story with fixed character slots, 
+motif mappings, and plot beat structures.
 
-**Why partially adopted**: Few-shot examples don't scale — each transformation is too 
-unique for generic examples to help. However, the *motif mapping* approach is inspired 
-by few-shot thinking: we provide explicit source → target examples in our transformation 
-config, which acts as structured few-shot context.
+**Why rejected**: Doesn't scale. Adding a new story requires schema work, not 
+just text input. The system becomes a YAML editor, not a transformation engine.
+The LLM is better at extracting narrative structure than human YAML curation.
 
-### Alternative C: RAG with Full Source Text
-Feed the entire text of Hamlet through a retrieval system, chunked into scenes.
+### Alternative C: Few-Shot Prompting
+Show 2-3 examples of transformations, then ask for a new one.
 
-**Why rejected for this scope**: Hamlet is ~30,000 words. The bottleneck is not *access* 
-to the source text (it's public domain, the LLM knows it) — it's *structured analysis* 
-of narrative components. Our YAML-based approach is more efficient and more transparent 
-than raw retrieval.
+**Why partially adopted**: We adopted the PRINCIPLE (show the LLM what structure 
+looks like) but not the METHOD (examples are too story-specific). Instead, we 
+provide the ontology as a structural vocabulary — a meta-level few-shot guide.
 
-### What We Actually Built: Structured Pipeline with Knowledge Integration
-- **From Alternative A**: We kept the single coherent output goal
-- **From Alternative B**: We adopted structured examples (YAML mappings as implicit few-shot)
-- **From Alternative C**: We kept the knowledge integration concept, but curated it manually 
-  into YAML rather than using vector retrieval
+### Alternative D: RAG with Full Source Text
+Chunk the entire original text and retrieve relevant passages.
+
+**Why rejected for this scope**: For well-known works, the LLM already knows the 
+source. For user-written stories, the user provides a summary. RAG adds complexity 
+without clear benefit for this use case. However, RAG could be valuable at scale 
+(e.g., transforming a 300-page novel) as a future enhancement.
+
+### What We Built: LLM-Driven Universal Pipeline
+- **From A**: We kept the single coherent output goal
+- **From B**: We kept the ontology concept (vocabulary, not schema)
+- **From C**: We adopted meta-level structural guidance
+- **From D**: We kept knowledge integration as a future option
 
 ## 4. Challenges & Mitigations
 
 ### Challenge 1: Thematic Coherence Across Stages
-**Problem**: When Stage 4 writes the story, does it actually preserve the themes identified 
-in the source material?
+**Problem**: Stage 4 might forget themes identified in Stage 1.
 
-**Mitigation**: The prompt chain is cumulative — Stage 4 receives the world bible, character 
-profiles, AND scene outline. The themes are embedded in every layer, not mentioned once and 
-forgotten. The scene outline explicitly marks which motifs appear in each scene.
+**Mitigation**: Cumulative prompting — Stage 4 receives ALL previous outputs. 
+The ontology provides stable vocabulary. The "Soul of the Story" extraction in 
+Stage 1 creates an anchor that persists through all stages.
 
-### Challenge 2: Character Consistency
-**Problem**: An LLM might generate different personality details for the same character 
-across different parts of a long output.
+### Challenge 2: Universal Applicability
+**Problem**: Will the same prompts work for Hamlet AND Shivaji Maharaj AND a 
+user-written sci-fi story?
 
-**Mitigation**: Stage 2 generates definitive character profiles ONCE, and these are 
-injected verbatim into all subsequent prompts. The characters are "frozen" after Stage 2.
+**Mitigation**: Prompts are task-oriented, not content-oriented. "Extract 
+narrative DNA" works for any story. "Map to target world" works for any world. 
+The ontology provides structural categories but doesn't force specific ones.
 
-### Challenge 3: Avoiding Pastiche
-**Problem**: The LLM might just paste Shakespeare quotes into tech jargon, creating a 
-costume rather than a transformation.
+### Challenge 3: Rate Limits
+**Problem**: Groq's free tier has per-minute token limits. A 4-stage pipeline 
+with large prompts can exceed them.
 
-**Mitigation**: We never feed the original Hamlet text to the LLM. The source material 
-is abstracted into *functions and themes*, not dialogue or specific events. The LLM 
-can't copy what it doesn't see in the prompt.
+**Mitigation**: Automatic retry with exponential backoff. 3 retries at 30/60/90 
+second intervals. Intermediate outputs are saved, so a crash at Stage 4 doesn't 
+lose Stages 1-3.
 
-### Challenge 4: Reproducibility
-**Problem**: LLM outputs are stochastic — running the same pipeline twice produces 
-different results.
+### Challenge 4: Avoiding Pastiche
+**Problem**: The LLM might produce "Shakespeare in tech jargon" instead of a 
+genuine reimagining.
 
-**Mitigation**: We save `run_metadata.json` with model ID, temperature, and timestamp. 
-We save all intermediate artifacts. Lower temperature values increase reproducibility. 
-The structured inputs (YAML) are deterministic anchors.
+**Mitigation**: Stage 1 extracts ABSTRACT narrative functions (not dialogue or 
+specific events). The LLM never receives the original text for Stage 4 — only 
+the structured analysis and transformation plan. It can't copy what it doesn't see.
+
+### Challenge 5: Reproducibility
+**Problem**: LLM outputs are non-deterministic.
+
+**Mitigation**: All intermediate outputs are saved. Run metadata (model, 
+temperature, timestamp) is recorded. Lower temperature increases reproducibility.
 
 ## 5. Future Improvements
 
-### Scaling to a Full Product or API
-1. **Multi-Source Support**: Create a library of `source_material.yaml` files for 
-   different works. The pipeline already supports `--source` and `--transform` flags.
+### Immediate (Low Effort, High Impact)
+1. **Streaming**: Add streaming to Stage 4 for progressive story display
+2. **Stage caching**: If source text is identical, skip Stage 1 on re-runs
+3. **Model selection per stage**: Use a fast model for analysis, a creative model for generation
 
-2. **Interactive Transformation Builder**: A web UI where users select a source work,
-   choose a target world genre, and the system generates the transformation config 
-   automatically (with human review).
+### Medium-Term (Product Features)
+4. **Web UI**: Streamlit/Gradio frontend — the engine already has a clean API:
+   ```python
+   @app.post("/transform")
+   async def transform(req: TransformRequest):
+       engine = TransformationEngine()
+       return engine.transform(req.source, req.world)
+   ```
+5. **Multi-world comparison**: Same source → 3 different worlds, side by side
+6. **Quality evaluation**: Stage 5 that scores the output for thematic fidelity, 
+   character consistency, and narrative coherence
 
-3. **Quality Evaluation Loop**: Add a 5th stage that evaluates the generated story 
-   against the source themes and scores it for thematic fidelity, character consistency, 
-   and narrative coherence. Use this as a feedback signal.
-
-4. **Model Fine-Tuning**: Fine-tune an open-source model on a dataset of high-quality 
-   narrative transformations to improve output quality without increasing prompt length.
-
-5. **Parallel Generation**: Run Stages 1 and 2 in parallel (they're semi-independent), 
-   then merge for Stage 3. This halves the generation time.
-
-6. **Version Control for Creativity**: Track different transformation configs for the 
-   same source material. Compare "Hamlet in Silicon Valley" vs "Hamlet in Space" 
-   vs "Hamlet in feudal Japan" — same pipeline, different configs.
+### Long-Term (Scaling)
+7. **RAG for long sources**: Chunk and retrieve from 300-page novels
+8. **Fine-tuning**: Train on high-quality narrative transformations
+9. **User feedback loop**: Rate generated stories, use ratings to improve prompts
+10. **Multi-language**: Transform stories into different languages, not just worlds
