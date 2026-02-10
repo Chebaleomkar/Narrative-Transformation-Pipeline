@@ -1,0 +1,212 @@
+# ============================================================
+# Transformation Configuration
+# ============================================================
+# This file defines the TARGET WORLD and the MAPPING RULES
+# for transforming the source narrative into a new context.
+#
+# Design Decision: We separate "what to transform" from
+# "how to transform" — the source_material.yaml defines the
+# abstract components, and this file defines the new context
+# they map into.
+# ============================================================
+
+# -----------------------
+# Target World Definition
+# -----------------------
+target_world:
+  name: "AI Startup Ecosystem, San Francisco, 2027"
+  era: "Near-future tech industry"
+  location: "San Francisco Bay Area — gleaming offices hiding cutthroat politics"
+  atmosphere: "Hyper-ambitious, surveillance-saturated, morally grey tech culture"
+  description: >
+    A world where AI companies wield more influence than governments.
+    Billion-dollar valuations depend on proprietary models and data.
+    The culture worships 'disruption' and 'moving fast' while burying
+    ethical concerns under layers of PR. Loyalty is to equity, not people.
+  internal_rules:
+    - "Power is measured in compute access, data ownership, and board seats"
+    - "Information is the ultimate weapon — leaked emails, model weights, internal Slack logs"
+    - "Everyone performs their role: the Visionary Founder, the Loyal Engineer, the Ethical Voice"
+    - "Madness looks like burnout, obsessive debugging, and public meltdowns on social media"
+    - "The 'ghost' can be a digital artifact — a recorded message, a commit log, a leaked document"
+    - "Poison becomes sabotaged code, corrupted training data, or planted vulnerabilities"
+
+# ------------------
+# Character Mappings
+# ------------------
+# Each source character maps to a target-world identity.
+# We preserve their narrative FUNCTION while changing surface identity.
+character_mappings:
+  - source: "Hamlet"
+    target_name: "Aarav Sengupta"
+    target_role: "Brilliant young AI researcher, son of the company founder"
+    mapping_rationale: >
+      Hamlet's intellectual paralysis maps perfectly to a researcher
+      who can see the ethical rot but is trapped by loyalty, equity,
+      and the weight of his father's legacy. His 'madness' becomes
+      erratic behavior: cryptic Slack messages, bizarre commit messages,
+      deliberately breaking builds to test who notices.
+
+  - source: "Claudius"
+    target_name: "Victor Hale"
+    target_role: "COO who engineered a hostile takeover after the founder's death"
+    mapping_rationale: >
+      The charming usurper becomes the smooth-talking operator who
+      'merged' the company with his own interests, sidelining the
+      founder's vision. His poison is corporate — forged board votes,
+      manipulated IP assignments, buried safety research.
+
+  - source: "Gertrude"
+    target_name: "Meera Sengupta"
+    target_role: "Chief Science Officer, Aarav's mother, now aligned with Victor"
+    mapping_rationale: >
+      The compromised parent becomes a scientist who chose institutional
+      survival over questioning her husband's suspicious death. Her
+      complicity is pragmatic: she believes working within the system
+      protects her son. Her blindness is willful.
+
+  - source: "Ophelia"
+    target_name: "Lena Chen"
+    target_role: "Ethics researcher and Aarav's collaborator / love interest"
+    mapping_rationale: >
+      The innocent destroyed by forces beyond her control becomes an
+      ethics researcher whose genuine concerns are weaponized by every side.
+      Her 'madness' is burnout and public disillusionment — a viral thread
+      exposing everything, then silence.
+
+  - source: "Horatio"
+    target_name: "Dev Okafor"
+    target_role: "Open-source developer, Aarav's closest friend from grad school"
+    mapping_rationale: >
+      The loyal outsider becomes someone not on the company payroll —
+      an independent developer with no equity stake and therefore no
+      reason to lie. He survives because he has nothing to gain.
+
+  - source: "Polonius"
+    target_name: "Martin Chen"
+    target_role: "VP of Legal & Compliance, Lena's father"
+    mapping_rationale: >
+      The meddling adviser becomes the compliance officer who mistakes
+      process for wisdom. He uses his daughter's ethics work as political
+      cover while serving whoever holds power.
+
+  - source: "Laertes"
+    target_name: "Jason Chen"
+    target_role: "Security engineer, Lena's brother, formerly at a rival company"
+    mapping_rationale: >
+      The hot-headed foil becomes a cybersecurity expert whose skills
+      make him the perfect weapon. Returns when his sister breaks down,
+      and Victor redirects his rage toward Aarav.
+
+  - source: "The Ghost"
+    target_name: "Raj Sengupta (digital remains)"
+    target_role: "Dead founder whose encrypted files surface posthumously"
+    mapping_rationale: >
+      The ghost becomes a series of encrypted documents, code commits,
+      and a scheduled email that was set to send if Raj didn't cancel
+      it — a dead man's switch revealing how Victor orchestrated
+      his removal from the company he built.
+
+# ----------------
+# Motif Remappings
+# ----------------
+motif_mappings:
+  - source_motif: "Poison"
+    target_equivalent: "Corrupted code / sabotaged training data / planted backdoors"
+    usage: "Victor's method of destroying the founder's work from within"
+
+  - source_motif: "Performance / Theater"
+    target_equivalent: "PR narratives / keynote performances / curated social media"
+    usage: "Everyone performs: Victor's TED talks, Aarav's 'crazy' Slack persona"
+
+  - source_motif: "Surveillance"
+    target_equivalent: "Slack monitoring / email surveillance / access logs / internal metrics dashboards"
+    usage: "No conversation is private; everything is logged, tracked, searchable"
+
+  - source_motif: "Decay / Rot"
+    target_equivalent: "Technical debt / ethical debt / safety shortcuts accumulating"
+    usage: "'Something is rotten in the codebase' — the model has concerning behaviors nobody will acknowledge"
+
+  - source_motif: "Madness"
+    target_equivalent: "Burnout / obsessive behavior / public meltdowns / cryptic communications"
+    usage: "Aarav's strategic madness is writing bizarre code comments and erratic PRs; Lena's real madness is a breakdown thread"
+
+# ------------------
+# Plot Beat Mappings
+# ------------------
+plot_beat_mappings:
+  - source_beat: "inciting_revelation"
+    target_scene: >
+      Aarav discovers his father's dead man's switch — an encrypted
+      email with attached documents proving Victor forged board
+      resolutions and manipulated the IP transfer that gave him control.
+    key_tension: "Is the evidence real or planted? Can Aarav trust a ghost in the machine?"
+
+  - source_beat: "feigned_persona"
+    target_scene: >
+      Aarav begins acting erratically — shipping bizarre features,
+      writing manifestos in code comments, picking public fights on
+      internal forums. Everyone thinks he's burning out from grief.
+      In reality, he's watching who reports to Victor.
+    key_tension: "The line between strategic madness and genuine breakdown blurs"
+
+  - source_beat: "test_of_truth"
+    target_scene: >
+      Aarav builds a demo — a 'narrative AI' that generates a story
+      suspiciously close to how his father was ousted. He presents it
+      at an all-hands as a 'creative experiment.' He watches Victor's
+      reaction. The play within a play becomes a demo within a demo.
+    key_tension: "Art as weapon; Victor realizes he's being tested"
+
+  - source_beat: "collateral_sacrifice"
+    target_scene: >
+      Martin Chen, snooping on Aarav through Lena's access credentials,
+      is caught in the crossfire when Aarav pushes a trap commit that
+      locks out anyone accessing his private repos. Martin is fired
+      for unauthorized access — collateral damage.
+    key_tension: "Aarav didn't mean to destroy Lena's father, but his trap was indiscriminate"
+
+  - source_beat: "pawn_destruction"
+    target_scene: >
+      Lena, torn between her father's humiliation, Aarav's spiral,
+      and Victor's pressure to retract her ethics report, publishes
+      a devastating thread exposing the company's safety shortcuts.
+      It goes viral. Then she goes silent — deletes all accounts,
+      disappears from the industry.
+    key_tension: "Her truth-telling is both her liberation and her destruction"
+
+  - source_beat: "exile_and_return"
+    target_scene: >
+      Victor arranges for Aarav to be 'seconded' to a partner lab
+      in London — really a way to isolate him. While there, Aarav
+      finds clarity. He strips away his performance, understands
+      what he must do, and quietly returns.
+    key_tension: "The exile was meant to neutralize him; instead it focused him"
+
+  - source_beat: "manipulated_avenger"
+    target_scene: >
+      Jason Chen returns, furious about his sister's breakdown and
+      his father's firing. Victor befriends him, gives him security
+      access, and subtly directs his investigation toward Aarav
+      as the cause of his family's destruction.
+    key_tension: "Jason's skills make him dangerous; his grief makes him blind"
+
+  - source_beat: "final_reckoning"
+    target_scene: >
+      A live product launch event. Victor has prepared a poisoned
+      demo — a rigged AI system with a backdoor that will be blamed
+      on Aarav. Jason has planted monitoring tools to expose Aarav
+      in real-time. But Aarav has the founder's original codebase.
+      Everything unravels on stage: the backdoor is traced to Victor,
+      Jason realizes he was manipulated, Meera finally sees the truth.
+      But the damage is done — the company is destroyed, careers
+      are ruined, and Aarav's obsessive pursuit has cost him everything.
+    key_tension: "Everyone is destroyed by the truth they tried to control"
+
+  - source_beat: "truth_survives"
+    target_scene: >
+      Dev Okafor, who was never on payroll, never had equity, never
+      had a reason to lie, open-sources the founder's original
+      research with full documentation. An HN post. A podcast
+      interview. The truth survives in the commons.
+    key_tension: "The only person who can tell the real story is the one with nothing to gain"

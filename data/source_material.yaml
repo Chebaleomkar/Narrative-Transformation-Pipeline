@@ -1,0 +1,180 @@
+# ============================================================
+# Source Material: Hamlet by William Shakespeare (Public Domain)
+# ============================================================
+# This file contains structured metadata about the source
+# narrative, broken down into reusable components that the
+# transformation pipeline can systematically remap.
+# ============================================================
+
+title: "Hamlet, Prince of Denmark"
+author: "William Shakespeare"
+year: ~1600
+domain: "Public Domain"
+genre: "Tragedy"
+setting:
+  location: "Elsinore Castle, Denmark"
+  era: "Medieval / Renaissance"
+  atmosphere: "Claustrophobic court politics, surveillance, decay"
+
+# ---------------------
+# Core Thematic Pillars
+# ---------------------
+# These are the timeless themes that MUST survive transformation.
+# They are the soul of the story — setting-independent truths.
+themes:
+  - id: "betrayal_and_power"
+    description: "Power seized through treachery within a family/institution"
+  - id: "paralysis_of_overthinking"
+    description: "A brilliant mind destroying itself through indecision"
+  - id: "performance_vs_reality"
+    description: "Everyone is performing a role; truth is buried under masks"
+  - id: "corruption_spreading"
+    description: "'Something is rotten' — systemic moral decay from the top"
+  - id: "cycle_of_revenge"
+    description: "Revenge as a force that consumes the avenger"
+  - id: "surveillance_and_paranoia"
+    description: "Constant watching, spying, testing loyalty"
+
+# ----------
+# Characters
+# ----------
+# Each character is reduced to their narrative FUNCTION,
+# separating identity from role so we can remap them.
+characters:
+  - name: "Hamlet"
+    role: "protagonist"
+    function: "The brilliant heir who knows the truth but cannot act on it"
+    traits:
+      - "intellectually gifted"
+      - "morally paralyzed"
+      - "performative (feigns madness)"
+      - "deeply introspective"
+    arc: "From grieving son to self-destructive avenger"
+    relationships:
+      - target: "Claudius"
+        type: "antagonist (uncle/usurper)"
+      - target: "Gertrude"
+        type: "complicated love/betrayal (mother)"
+      - target: "Ophelia"
+        type: "tragic love interest"
+      - target: "Horatio"
+        type: "loyal confidant"
+
+  - name: "Claudius"
+    role: "antagonist"
+    function: "The charming usurper who murdered his way to the top"
+    traits:
+      - "politically cunning"
+      - "superficially charismatic"
+      - "morally bankrupt but self-aware"
+    arc: "Growing paranoia as his crime threatens to surface"
+
+  - name: "Gertrude"
+    role: "ambiguous ally"
+    function: "The compromised parent — complicit or naive?"
+    traits:
+      - "pragmatic survivor"
+      - "emotionally dependent"
+      - "willfully blind"
+    arc: "From complicity to tragic awareness"
+
+  - name: "Ophelia"
+    role: "tragic mirror"
+    function: "The innocent destroyed by the conflict around her"
+    traits:
+      - "genuine and vulnerable"
+      - "used as a pawn"
+      - "breaks under pressure"
+    arc: "From obedient love to madness and destruction"
+
+  - name: "Horatio"
+    role: "witness"
+    function: "The one honest person who survives to tell the story"
+    traits:
+      - "loyal beyond reason"
+      - "rational and grounded"
+      - "outsider to the politics"
+    arc: "Steady presence; becomes the narrator of truth"
+
+  - name: "Polonius"
+    role: "manipulative advisor"
+    function: "The meddling insider who mistakes cunning for wisdom"
+    traits:
+      - "verbose and self-important"
+      - "loyal to power, not people"
+      - "uses his children as tools"
+    arc: "Hubris leads to becoming collateral damage"
+
+  - name: "Laertes"
+    role: "foil / dark mirror"
+    function: "What Hamlet would be if he acted without hesitation"
+    traits:
+      - "passionate and impulsive"
+      - "honor-driven"
+      - "easily manipulated by grief"
+    arc: "Becomes the weapon Claudius wields against Hamlet"
+
+  - name: "The Ghost"
+    role: "catalyst"
+    function: "The revelation that sets everything in motion"
+    traits:
+      - "authoritative"
+      - "morally ambiguous (demands revenge)"
+      - "possibly manipulative"
+    arc: "Single appearance that poisons everything after"
+
+# -------------------------
+# Key Plot Beats (Abstract)
+# -------------------------
+# Reduced to narrative functions, not Shakespeare-specific events.
+plot_beats:
+  - id: "inciting_revelation"
+    description: "Protagonist learns the truth about how the previous leader was removed"
+    function: "Shatters the protagonist's world; creates the central dilemma"
+
+  - id: "feigned_persona"
+    description: "Protagonist adopts a mask/performance to investigate without suspicion"
+    function: "Creates dramatic irony; shows theme of performance vs reality"
+
+  - id: "test_of_truth"
+    description: "Protagonist devises a test to confirm the antagonist's guilt"
+    function: "The 'play within a play' — using art/performance to expose truth"
+
+  - id: "collateral_sacrifice"
+    description: "An innocent or meddler is killed by mistake during investigation"
+    function: "Shows that pursuing justice has unintended victims"
+
+  - id: "pawn_destruction"
+    description: "Someone used as a tool by both sides breaks under the weight"
+    function: "Ophelia's madness — the human cost of political games"
+
+  - id: "exile_and_return"
+    description: "Protagonist is sent away (a trap) but returns transformed"
+    function: "A crucible that strips away hesitation"
+
+  - id: "manipulated_avenger"
+    description: "Antagonist arms a grieving person against the protagonist"
+    function: "Creates a dark mirror; weaponized grief"
+
+  - id: "final_reckoning"
+    description: "A staged contest becomes a bloodbath; all major players fall"
+    function: "The poison that has been building finally erupts everywhere"
+
+  - id: "truth_survives"
+    description: "The one honest witness is left to tell what really happened"
+    function: "Despite total destruction, truth is preserved"
+
+# ----------------------
+# Symbolic / Motif Layer
+# ----------------------
+motifs:
+  - name: "Poison"
+    meaning: "Corruption that works invisibly from within"
+  - name: "Performance / Theater"
+    meaning: "The gap between appearance and reality"
+  - name: "Surveillance"
+    meaning: "No private space; everyone is being watched"
+  - name: "Decay / Rot"
+    meaning: "The kingdom/system is dying from the inside"
+  - name: "Madness (real vs feigned)"
+    meaning: "The line between strategic deception and genuine breakdown"
