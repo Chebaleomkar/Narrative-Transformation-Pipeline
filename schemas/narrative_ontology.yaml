@@ -1,0 +1,340 @@
+# ============================================================
+# UNIVERSAL NARRATIVE ONTOLOGY
+# ============================================================
+# This is the CONTRACT that all source stories and target
+# worlds must conform to. It defines the abstract vocabulary
+# of storytelling — roles, themes, plot functions, and motifs
+# that are story-agnostic and world-agnostic.
+#
+# Design Principle:
+#   A source file maps its characters INTO ontology roles.
+#   A world file maps ontology roles INTO world identities.
+#   The pipeline joins them through ontology keys.
+#   Source and world NEVER reference each other directly.
+#
+# Extensibility:
+#   New roles, themes, functions, or motifs can be added here
+#   without modifying any pipeline code. The validator and
+#   pipeline read this file dynamically.
+# ============================================================
+
+version: "1.0"
+
+# ──────────────────────────────────────
+# THEMES — Universal narrative concerns
+# ──────────────────────────────────────
+# These are the timeless questions stories explore.
+# Each source story activates a SUBSET of these themes.
+themes:
+  sovereignty_and_power:
+    description: "Who has the right to lead, rule, or control?"
+    keywords: ["authority", "legitimacy", "dominion", "kingship"]
+
+  betrayal_and_treachery:
+    description: "Trust violated from within — the deepest wound"
+    keywords: ["deception", "backstabbing", "broken_oath", "usurpation"]
+
+  loyalty_and_sacrifice:
+    description: "Bonds that hold even when the cost is everything"
+    keywords: ["devotion", "oath", "selflessness", "duty"]
+
+  justice_and_vengeance:
+    description: "The pursuit of what's right — and when it becomes destructive"
+    keywords: ["retribution", "law", "revenge", "moral_reckoning"]
+
+  identity_and_transformation:
+    description: "Who am I, really? And who must I become?"
+    keywords: ["self_discovery", "masks", "growth", "metamorphosis"]
+
+  corruption_and_decay:
+    description: "Systems rotting from the inside while appearing functional"
+    keywords: ["moral_rot", "institutional_failure", "hidden_poison"]
+
+  resistance_and_rebellion:
+    description: "Standing against a dominant force despite impossible odds"
+    keywords: ["defiance", "uprising", "guerrilla", "asymmetric_warfare"]
+
+  love_and_loss:
+    description: "Connection, separation, and the grief between"
+    keywords: ["romance", "sacrifice", "mourning", "longing"]
+
+  performance_and_deception:
+    description: "The gap between what's shown and what's true"
+    keywords: ["masks", "theater", "manipulation", "facades"]
+
+  legacy_and_succession:
+    description: "What survives us — institutions, ideas, or memory"
+    keywords: ["inheritance", "heritage", "dynasty", "continuity"]
+
+  freedom_and_oppression:
+    description: "The struggle between autonomy and subjugation"
+    keywords: ["liberation", "tyranny", "colonialism", "independence"]
+
+  honor_and_duty:
+    description: "When personal desire conflicts with obligation"
+    keywords: ["dharma", "code", "responsibility", "noblesse_oblige"]
+
+  nature_vs_civilization:
+    description: "The tension between the wild/natural and the constructed/political"
+    keywords: ["wilderness", "urbanization", "indigenous", "technology"]
+
+# ──────────────────────────────────────────
+# CHARACTER ROLES — Abstract narrative slots
+# ──────────────────────────────────────────
+# These are FUNCTIONS in the story, not identities.
+# A character IS a "protagonist" in the story's structure,
+# but their identity (name, appearance, culture) comes from
+# the source or target world.
+#
+# Required: protagonist, antagonist (every story needs these)
+# Optional: all others
+character_roles:
+  protagonist:
+    description: "The central figure who carries the story's weight and faces the core dilemma"
+    narrative_function: "Drives the story through action or inaction; the lens through which we experience the world"
+    required: true
+
+  antagonist:
+    description: "The opposing force — person, system, or ideology — that creates the central conflict"
+    narrative_function: "Creates obstacles, raises stakes, embodies what the protagonist fights against"
+    required: true
+
+  visionary_leader:
+    description: "The one who builds, inspires, or imagines something greater"
+    narrative_function: "Establishes the ideal that others inherit, fight for, or corrupt"
+    required: false
+
+  loyal_witness:
+    description: "The honest outsider who survives to tell the truth"
+    narrative_function: "Provides perspective; becomes the narrator of what really happened"
+    required: false
+
+  tragic_mirror:
+    description: "An innocent destroyed by the conflict around them"
+    narrative_function: "Shows the human cost of the central struggle; the collateral damage"
+    required: false
+
+  dark_foil:
+    description: "What the protagonist would become if they acted without restraint"
+    narrative_function: "Provides contrast; shows the alternative path the protagonist could take"
+    required: false
+
+  compromised_ally:
+    description: "Someone on the protagonist's side who is compromised by pragmatism or complicity"
+    narrative_function: "Embodies moral ambiguity; forces the protagonist to question their allies"
+    required: false
+
+  manipulative_advisor:
+    description: "The insider who mistakes cunning for wisdom and serves power over people"
+    narrative_function: "Represents institutional self-interest; becomes collateral damage"
+    required: false
+
+  catalyst:
+    description: "The event, person, or revelation that sets everything in motion"
+    narrative_function: "Breaks the status quo; creates the central dilemma"
+    required: false
+
+  pawn:
+    description: "Someone used as a tool by multiple sides, often unaware of the full picture"
+    narrative_function: "Shows how power grinds individuals; generates sympathy"
+    required: false
+
+  strategist:
+    description: "The tactical mind who plans, maneuvers, and outthinks opponents"
+    narrative_function: "Drives plot through planning and counter-planning"
+    required: false
+
+  guardian:
+    description: "The protector — of people, knowledge, or tradition"
+    narrative_function: "Represents what must be preserved; their fall signals collapse"
+    required: false
+
+  rebel_leader:
+    description: "The one who organizes, inspires, and leads resistance"
+    narrative_function: "Embodies collective agency and the willingness to fight"
+    required: false
+
+  mentor:
+    description: "The experienced guide who shapes the protagonist's growth"
+    narrative_function: "Provides wisdom, training, or moral grounding"
+    required: false
+
+  trickster:
+    description: "The unpredictable element who disrupts plans and reveals hidden truths"
+    narrative_function: "Introduces chaos; often sees what others miss"
+    required: false
+
+# ──────────────────────────────────────────
+# PLOT FUNCTIONS — Abstract story mechanics
+# ──────────────────────────────────────────
+# These describe WHAT HAPPENS in narrative terms,
+# not HOW it happens (that comes from the world).
+#
+# A source story selects and sequences a subset of these.
+# A target world defines HOW each function manifests.
+plot_functions:
+  inciting_revelation:
+    description: "The protagonist learns something that shatters their current reality"
+    purpose: "Creates the central dilemma; makes the status quo impossible"
+    act: "beginning"
+
+  call_to_action:
+    description: "An external event or internal realization demands the protagonist act"
+    purpose: "Transitions from passive to active; raises the stakes"
+    act: "beginning"
+
+  gathering_of_allies:
+    description: "The protagonist assembles support — people, resources, knowledge"
+    purpose: "Builds the team and establishes relationship dynamics"
+    act: "beginning"
+
+  feigned_persona:
+    description: "The protagonist adopts a mask or performance to operate under cover"
+    purpose: "Creates dramatic irony; explores identity vs role"
+    act: "rising_action"
+
+  test_of_truth:
+    description: "A deliberate experiment to confirm what the protagonist suspects"
+    purpose: "Raises stakes by making suspicion into certainty"
+    act: "rising_action"
+
+  asymmetric_conflict:
+    description: "Conflict where one side has overwhelming advantage (resources, position, numbers)"
+    purpose: "Tests ingenuity, courage, and strategy of the disadvantaged side"
+    act: "rising_action"
+
+  strategic_retreat:
+    description: "Deliberate withdrawal to preserve strength for a better fight"
+    purpose: "Shows wisdom over impulsiveness; builds tension for the return"
+    act: "rising_action"
+
+  collateral_sacrifice:
+    description: "An innocent or bystander is harmed as a consequence of the central conflict"
+    purpose: "Shows that pursuing a goal has unintended victims"
+    act: "complications"
+
+  pawn_destruction:
+    description: "Someone used by both sides breaks under the weight"
+    purpose: "Humanizes the cost of the political/strategic game"
+    act: "complications"
+
+  betrayal_from_within:
+    description: "A trusted ally turns against the protagonist or is revealed as compromised"
+    purpose: "Destroys trust; forces the protagonist to reassess everything"
+    act: "complications"
+
+  exile_and_return:
+    description: "The protagonist is removed from the field and comes back transformed"
+    purpose: "Provides a crucible that strips away pretense and clarifies purpose"
+    act: "complications"
+
+  manipulated_avenger:
+    description: "The antagonist weaponizes someone's grief or anger against the protagonist"
+    purpose: "Creates a dark mirror; shows how grief can be exploited"
+    act: "escalation"
+
+  decisive_confrontation:
+    description: "The final, unavoidable clash between protagonist and antagonist forces"
+    purpose: "Resolves the central conflict — for better or worse"
+    act: "climax"
+
+  sacrifice_for_cause:
+    description: "Someone gives up their life, freedom, or position for the greater goal"
+    purpose: "Demonstrates ultimate commitment; raises emotional stakes"
+    act: "climax"
+
+  truth_survives:
+    description: "Despite destruction, the real story is preserved for the future"
+    purpose: "Provides hope or closure; ensures meaning outlasts tragedy"
+    act: "resolution"
+
+  legacy_established:
+    description: "The protagonist's work, values, or vision takes root beyond their lifetime"
+    purpose: "Connects the individual struggle to something lasting"
+    act: "resolution"
+
+  pyrrhic_victory:
+    description: "The goal is achieved, but at a cost that makes victory feel like loss"
+    purpose: "Subverts expectations; shows the price of winning"
+    act: "resolution"
+
+# ──────────────────────────────────────
+# MOTIF CATEGORIES — Symbolic vocabulary
+# ──────────────────────────────────────
+# Abstract symbolic layers that carry meaning across scenes.
+# Each source story defines its specific symbols within these categories.
+# Each target world defines how these categories manifest.
+motif_categories:
+  corruption:
+    description: "Invisible forces that destroy from within"
+    examples: ["poison", "rot", "infection", "debt", "backdoors"]
+
+  performance:
+    description: "The gap between appearance and reality"
+    examples: ["theater", "masks", "PR", "social_media", "ceremonies"]
+
+  surveillance:
+    description: "Watching, being watched, privacy violated"
+    examples: ["spies", "cameras", "logs", "informants", "panopticon"]
+
+  decay:
+    description: "Systemic deterioration — physical, moral, institutional"
+    examples: ["ruins", "technical_debt", "erosion", "aging", "neglect"]
+
+  sacrifice:
+    description: "What is given up, willingly or not"
+    examples: ["blood", "freedom", "time", "relationships", "identity"]
+
+  madness:
+    description: "The line between strategic deception and genuine breakdown"
+    examples: ["obsession", "burnout", "paranoia", "eccentricity"]
+
+  legacy:
+    description: "What survives beyond the individual"
+    examples: ["monuments", "code", "stories", "children", "institutions"]
+
+  nature:
+    description: "The natural world as mirror, refuge, or force"
+    examples: ["storms", "forests", "animals", "seasons", "landscape"]
+
+  fire:
+    description: "Destruction that also enables renewal"
+    examples: ["flames", "explosions", "scorched_earth", "purification"]
+
+  water:
+    description: "Flow, change, drowning, purification"
+    examples: ["rivers", "rain", "floods", "oceans", "tears"]
+
+# ──────────────────────────────────────────
+# RELATIONSHIP TYPES — How characters connect
+# ──────────────────────────────────────────
+relationship_types:
+  - "mentor_protege"
+  - "rivals"
+  - "parent_child"
+  - "siblings"
+  - "lovers"
+  - "allies"
+  - "betrayer_betrayed"
+  - "ruler_subject"
+  - "commander_soldier"
+  - "friends"
+  - "manipulator_pawn"
+  - "colleagues"
+
+# ──────────────────────────────────────
+# ACT STRUCTURE — Story rhythm
+# ──────────────────────────────────────
+act_structure:
+  - id: "beginning"
+    purpose: "Establish the world, characters, and the inciting event"
+  - id: "rising_action"
+    purpose: "Complications mount; stakes escalate; alliances form"
+  - id: "complications"
+    purpose: "Plans fail; costs become real; alliances fracture"
+  - id: "escalation"
+    purpose: "Forces converge toward inevitable confrontation"
+  - id: "climax"
+    purpose: "The decisive moment — everything changes"
+  - id: "resolution"
+    purpose: "Aftermath — what survives, what's lost, what's learned"
