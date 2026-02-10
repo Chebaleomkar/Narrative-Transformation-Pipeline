@@ -110,6 +110,18 @@ with st.sidebar:
         help="URL of the FastAPI backend server"
     )
 
+    if st.button("Check Server Status"):
+        try:
+            r = requests.get(f"{api_url}/api/health", timeout=3)
+            if r.status_code == 200:
+                st.success("✅ Server is Online")
+            else:
+                st.error(f"❌ Server Error: {r.status_code}")
+        except requests.exceptions.ConnectionError:
+            st.error("❌ Server Offline")
+        except Exception as e:
+            st.error(f"❌ Error: {e}")
+
     st.divider()
 
     st.markdown("""
